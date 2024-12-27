@@ -227,6 +227,51 @@ void quick_sort(vector<patent*> patents){
     }
 }
 
+//第五部分
+void swap(vector<patent*> &patents,int i,int max){//max用于表示当前还需调整的列表的最后一个元素的index
+    int nownode=i;
+    while(2*nownode+1 <= max){
+        if((patents[nownode]->citation < patents[2*nownode+1]->citation) || (2*nownode+2<=max && patents[nownode]->citation < patents[2*nownode+2]->citation)){//左孩子比自己大或者右孩子存在并且右孩子比自己大
+            if(patents[2*nownode+1]->citation >= patents[2*nownode+2]->citation){//左孩子更大
+                patent* temp;
+                temp=patents[nownode];
+                patents[nownode]=patents[2*nownode+1];
+                patents[2*nownode+1]=temp;
+                nownode=2*nownode+1;
+            }
+            else{//右孩子更大
+                patent* temp;
+                temp=patents[nownode];
+                patents[nownode]=patents[2*nownode+2];
+                patents[2*nownode+2]=temp;
+                nownode=2*nownode+2;
+            }
+        }
+        else{
+            break;
+        }
+    }
+}
+
+
+void heap_sort(vector<patent*> patents) {
+    //构建大顶堆
+    int begin=floor(patents.size()/2);
+    for(int i=begin;i>=0;i--){
+        swap(patents,i,patents.size()-1);
+    }
+    for(int i=patents.size()-1;i>0;i--){//i表示当前循环能确定的元素位置
+        patent* temp;
+        temp=patents[0];
+        patents[0]=patents[i];
+        patents[i]=temp;
+        swap(patents,0,i-1);//保证剩余堆的性质不变
+    }
+    for(auto &temp : patents){
+        cout << "key:" << temp->key << "  patent id:" << temp->patent_id << "  date:" << temp->date << "  citation:" << temp->citation << "  company:" <<temp->company << "  applicant id:" << temp->applicant_id << endl;
+    }
+}
+
 int main()
 {
     vector<patent *> patents;
@@ -239,11 +284,12 @@ int main()
         cout<<"2.Hash table search."<<endl;
         cout<<"3.Merge sort. (Based on Date)"<<endl;
         cout<<"4.Quick sort. (Based on citation)"<<endl;
-        cout<<"5."<<endl;
+        cout<<"5.Heap sort. (Based on citation)"<<endl;
         cout<<"0.exit"<<endl;
         cout<<"----------------------"<<endl;
         cout<<"Please choose a function:";
-        cin>>choice;
+        //cin>>choice;
+        choice=5;
         switch (choice)
         {
         case 1:
@@ -271,6 +317,7 @@ int main()
             system("clear");
             break;
         case 5:
+            heap_sort(patents);
             getchar();
             getchar();
             system("clear");
