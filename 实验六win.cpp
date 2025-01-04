@@ -232,7 +232,7 @@ void swap(vector<patent*> &patents,int i,int max){//max用于表示当前还需�
     int nownode=i;
     while(2*nownode+1 <= max){
         if((patents[nownode]->citation < patents[2*nownode+1]->citation) || (2*nownode+2<=max && patents[nownode]->citation < patents[2*nownode+2]->citation)){//左孩子比自己大或者右孩子存在并且右孩子比自己大
-            if(patents[2*nownode+1]->citation >= patents[2*nownode+2]->citation){//左孩子更大
+            if(patents[2*nownode+1]->citation >= patents[2*nownode+2]->citation || 2*nownode+2>max){//左孩子更大或右孩子不存在
                 patent* temp;
                 temp=patents[nownode];
                 patents[nownode]=patents[2*nownode+1];
@@ -288,8 +288,7 @@ int main()
         cout<<"0.exit"<<endl;
         cout<<"----------------------"<<endl;
         cout<<"Please choose a function:";
-        //cin>>choice;
-        choice=5;
+        cin>>choice;
         switch (choice)
         {
         case 1:
